@@ -4,7 +4,7 @@ pipeline{
 		PROJECT_ID = "ordinal-rig-361104"
 		CLUSTER_NAME = "cluster-1"
 		LOCATION = "us-central1-c"
-		CREDENTIALS_ID = "5c838932dd1530c4beb134acadcb71b09f14d073"
+		CREDENTIALS_ID = "My First Project"
 	}
 	stages{
 		stage("Build image"){
