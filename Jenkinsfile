@@ -1,5 +1,13 @@
 pipeline{
-	agent any
+	agent {
+		node{
+			label "linux && python"
+		}
+	// }
+	// environment{
+	// 	dockerhub=credentials('dockerhub')
+	// }
+	
 	stages{
 		stage('Maven Install'){
 			agent {
