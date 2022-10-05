@@ -4,18 +4,6 @@ pipeline{
 	// environment{
 	// 	dockerhub=credentials('dockerhub')
 	// }
-	
-	stages{
-		stage('Maven Install'){
-			agent {
-				docker{
-					image 'maven:3.5.0'
-				}
-			}
-			steps{
-				sh 'mvn clean install'
-			}
-		}
 		stage("Build image"){
 			when{
 				branch "main"
@@ -25,17 +13,9 @@ pipeline{
 			}
 		}
 		stage("Pushing to Docker hub"){
-			when{
-				branch "main"
-			}
 			steps{
-				sh 'docker tag simple-app:${BUILD_NUMBER} fajarnrs/simpleservice:${BUILD_NUMBER}'
-				withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]){
-					sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-					sh 'docker push fajarnrs/simpleservice:${BUILD_NUMBER}'
-				}
+				echo("Hello ss")
 			}
-		}
 		stage("Deploy"){
 			steps{
 				echo("Hello Deploy")
