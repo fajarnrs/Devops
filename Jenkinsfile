@@ -4,16 +4,32 @@ pipeline{
 			label "linux && python"
 		}
 	}
+	tools{
+		maven 'maven'
+	}
+	environment{
+		dockerhub=credentials('dockerhub')
+	}
 
 	stages{
-		stage("Build"){
+		stage("Build image"){
+			when{
+				branch "main"
+			}
 			steps{
-				echo("Hello Build")
+				sh 'docker build -t simple-app:${BUILD_NUMBER} webapp/.'
 			}
 		}
-		stage("Test"){
+		stage("Pushing to Docker hub"){
+			when{
+				branch "main"
+			}
 			steps{
-				echo("Hello Test")
+				sh 'docker tag simple-app:${BUILD_NUMBER} fajarnrs/simpleservice:${BUILD_NUMBER}'
+				withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]){
+					sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+					sh 'docker push fajarnrs/simpleservice:${BUILD_NUMBER}'
+				}
 			}
 		}
 		stage("Deploy"){
