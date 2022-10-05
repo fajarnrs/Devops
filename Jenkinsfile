@@ -1,9 +1,5 @@
 pipeline{
 	agent none
-	// }
-	// environment{
-	// 	dockerhub=credentials('dockerhub')
-	// }
 		stage("Build image"){
 			when{
 				branch "main"
