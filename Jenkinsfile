@@ -1,5 +1,11 @@
 pipeline{
-agent any
+	agent any
+	envronment {
+		PROJECT_ID = "ordinal-rig-361104"
+		CLUSTER_NAME = "cluster-1"
+		LOCATION = "us-central1-c"
+		CREDENTIALS_ID = "5c838932dd1530c4beb134acadcb71b09f14d073"
+	}
 	stages{
 		stage("Build image"){
 
@@ -16,9 +22,14 @@ agent any
 				}
 			}
 		}
-		stage("Deploy"){
+		stage("Deploy to GKE"){
 			steps{
-				echo("Hello Deploy")
+				sh "sed -i 's/tagversion/${BUILD_NUMBER}/g' simple.yaml"
+				step([$class: 'KubernetesEngineBuilder', 
+					projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME,
+					location: env.LOCATION, manifestPattern: 'simple.yaml', credentialsid: env.CREDENTIALS_ID,
+					verifyDeployments: true
+				])
 			}
 		}
 		
