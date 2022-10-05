@@ -1,5 +1,11 @@
 pipeline{
 	agent none
+	// }
+	// environment{
+	// 	dockerhub=credentials('dockerhub')
+	// }
+	
+	stages{
 		stage("Build image"){
 			when{
 				branch "main"
@@ -10,7 +16,7 @@ pipeline{
 		}
 		stage("Pushing to Docker hub"){
 			steps{
-				echo("Hello ss")
+				echo("Hello Deploy")
 			}
 		stage("Deploy"){
 			steps{
