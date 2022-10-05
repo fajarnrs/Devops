@@ -46,9 +46,8 @@ apiVersion: v1
 kind: Service
 metadata:
     name: influxdb
-    namespace: influxdb
+    namespace: default
 spec:
-    clusterIP: None
     ports:
      - port: 8086
        protocol: TCP
@@ -61,9 +60,9 @@ apiVersion: v1
 kind: Service
 metadata:
     name: influxdb-0
-    namespace: default
+    namespace: influxdb
 spec:
     type: ExternalName
-    externalName: influxdb.influxdb.svc.cluster.local
+    externalName: influxdb.default.svc.cluster.local
     ports:
      - port: 8086

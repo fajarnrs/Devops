@@ -16,7 +16,7 @@ spec:
            name: simpleservice
            port:
             number: 9876
-     - path: /
+     - path: /influxdb(/|$)(.*)
        pathType: Prefix
        backend:
          service:
