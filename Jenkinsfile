@@ -1,10 +1,15 @@
-node {
-
-	checkout scm
-	
-	docker.withRegistry('https://registry.hub.docker.com', 'dockerHub'){
-		def customImage = docker.build("fajarnrs/simpleservice")
-
-		customImage.push()
-	}
+pipeline {
+	agent none
+  stages {
+  	stage('Maven Install') {
+    	agent {
+      	docker {
+        	image 'maven:3.5.0'
+        }
+      }
+      steps {
+      	sh 'mvn clean install'
+      }
+    }
+  }
 }
