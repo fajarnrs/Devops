@@ -1,6 +1,6 @@
 pipeline{
 	agent any
-	envronment {
+	environment {
 		PROJECT_ID = "ordinal-rig-361104"
 		CLUSTER_NAME = "cluster-1"
 		LOCATION = "us-central1-c"
