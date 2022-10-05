@@ -27,7 +27,7 @@ pipeline{
 				sh "sed -i 's/tagversion/${BUILD_NUMBER}/g' simple.yaml"
 				step([$class: 'KubernetesEngineBuilder', 
 					projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME,
-					location: env.LOCATION, manifestPattern: 'simple.yaml', credentialsid: env.CREDENTIALS_ID,
+					location: env.LOCATION, manifestPattern: 'simple.yaml', credentialsId: env.CREDENTIALS_ID,
 					verifyDeployments: true
 				])
 			}
