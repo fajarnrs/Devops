@@ -7,9 +7,6 @@ pipeline{
 	
 	stages{
 		stage("Build image"){
-			when{
-				branch "main"
-			}
 			steps{
 				sh 'docker build -t simple-app:${BUILD_NUMBER} webapp/.'
 			}
