@@ -1,8 +1,5 @@
 pipeline{
-	agent {
-		node{
-			label "linux && python"
-		}
+	agent none
 	// }
 	// environment{
 	// 	dockerhub=credentials('dockerhub')
@@ -10,12 +7,9 @@ pipeline{
 	
 	stages{
 		stage('Maven Install'){
-			agent {
-				docker{
-					image 'maven:3.5.0'
-				}
-			}
+
 			steps{
+				sh ''
 				sh 'mvn clean install'
 			}
 		}
