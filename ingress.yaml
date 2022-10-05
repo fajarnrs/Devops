@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: simpleingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+ ingressClassName: nginx
+ rules:
+ - http:
+     paths:
+     - path: /myservice(/|$)(.*)
+       pathType: Prefix
+       backend:
+         service:
+           name: simpleservice
+           port:
+            number: 9876
+     - path: /
+       pathType: Prefix
+       backend:
+         service:
+           name: influxdb
+           port:
+            number: 8086
