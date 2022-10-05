@@ -8,6 +8,7 @@ pipeline{
 				}
 			}
 			steps{
+				sh 'usermod -aG docker jenkins'
 				sh 'mvn clean install'
 			}
 		}
