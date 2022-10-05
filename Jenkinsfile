@@ -4,14 +4,21 @@ pipeline{
 			label "linux && python"
 		}
 	}
-	tools{
-		maven 'maven'
-	}
 	environment{
 		dockerhub=credentials('dockerhub')
 	}
-
+	
 	stages{
+		stage('Maven Install'){
+			agent {
+				docker{
+					image 'maven:3.5.0'
+				}
+			}
+			steps{
+				sh 'mvn clean install'
+			}
+		}
 		stage("Build image"){
 			when{
 				branch "main"
