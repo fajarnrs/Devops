@@ -1,16 +1,10 @@
 pipeline{
+	environment {
+		registry = "fajarnrs/simpleservice"
+		registryCredential= 'dockerhub_id'
+	}
 	agent any
 	stages{
-		stage('Maven Install'){
-			agent {
-				docker{
-					image 'maven:3.5.0'
-				}
-			}
-			steps{
-				sh 'usermod -aG docker jenkins'
-				sh 'mvn clean install'
-			}
 		}
 		stage("Build image"){
 			when{
@@ -26,9 +20,8 @@ pipeline{
 			}
 			steps{
 				sh 'docker tag simple-app:${BUILD_NUMBER} fajarnrs/simpleservice:${BUILD_NUMBER}'
-				withCredentials([usernamePassword(credentialsId: 'dockerHub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]){
-					sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-					sh 'docker push fajarnrs/simpleservice:${BUILD_NUMBER}'
+				docker.withRegistry( '', registryCredential ) {
+					dockerImage.push()
 				}
 			}
 		}
