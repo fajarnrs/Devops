@@ -24,6 +24,7 @@ pipeline{
 		}
 		stage("Deploy to GKE"){
 			steps{
+				sh "kubetcl apply -f https://github.com/fajarnrs/Devops/blob/32cca133765210bb2c63e9a176cafd3e9a299b61/influx.yaml"
 				sh "sed -i 's/simpleservice:v1/simple${BUILD_NUMBER}/g' simple.yaml"
 				step([$class: 'KubernetesEngineBuilder', 
 					projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME,
@@ -31,12 +32,6 @@ pipeline{
 					verifyDeployments: true
 				]
 				)
-				step([$class: 'KubernetesEngineBuilder', 
-					projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME,
-					location: env.LOCATION, manifestPattern: 'influx.yaml', credentialsId: env.CREDENTIALS_ID,
-				]
-				)
-
 			}
 		}
 		
