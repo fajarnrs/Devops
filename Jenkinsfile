@@ -23,11 +23,7 @@ pipeline{
 			}
 		}
 		stage("Deploy to GKE"){
-			agent {
-				kubernetes{
-					inheritFrom 'kube-slave'
-				}
-			}
+
 			steps{
 				sh "sed -i 's/simpleservice:v1/simpleservice:${BUILD_NUMBER}/g' simple.yaml"
 				sh 'kubectl apply -f simple.yaml'
