@@ -2,5 +2,5 @@
 
 This is for Test Number 2 to deploy SimpleService and Influxdb
 
-<h1>Create Image</h1>
+<h2>Create Image</h2>
 
