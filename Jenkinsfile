@@ -24,7 +24,7 @@ pipeline{
 		}
 		stage("Deploy to GKE"){
 			steps{
-				sh "kubectl apply -f <directory-or-file> --context <CLUSTER_NAME>"
+				sh "kubectl apply -f <directory-or-file> --context ${CLUSTER_NAME}"
 				sh "sed -i 's/simpleservice:v1/simple${BUILD_NUMBER}/g' simple.yaml"
 				step([$class: 'KubernetesEngineBuilder', 
 					projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME,
