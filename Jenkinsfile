@@ -1,6 +1,6 @@
 import org.jenkinsci.plugins.pipeline.modeldefinition.Utils
 pipeline{
-	agent none
+	agent any
 	environment {
 		PROJECT_ID = "ordinal-rig-361104"
 		CLUSTER_NAME = "cluster-1"
