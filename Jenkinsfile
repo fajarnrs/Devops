@@ -25,8 +25,7 @@ pipeline{
 		stage("Deploy to GKE"){
 			agent {
 				kubernetes{
-					cloud "${CLUSTER_NAME}"
-					inheritFrom 'jenkins-agent'
+					inheritFrom 'kube-slave'
 				}
 			}
 			steps{
