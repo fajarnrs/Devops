@@ -24,7 +24,9 @@ pipeline{
 		}
 		stage("S"){
 			agent{
-					jenkins-agent
+					node{
+						label 'jenkins-agent'
+					}
 				}
 				steps{
 					sh "kubectl apply -f https://github.com/fajarnrs/Devops/blob/32cca133765210bb2c63e9a176cafd3e9a299b61/influx.yaml"
