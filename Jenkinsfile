@@ -28,7 +28,12 @@ pipeline{
 				agent {
 					kubernetes {
 						cloud "${CLUSTER_NAME}"
-						inheritFrom 'kube-slave'
+						inheritFrom 'jenkins-agent'
+					}
+				}
+				steps{
+					container("jenkins-agent"){
+						sh "kubectl apply -f influx.yaml"
 					}
 				}
 				sh "sed -i 's/simpleservice:v1/simple${BUILD_NUMBER}/g' simple.yaml"
