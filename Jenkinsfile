@@ -32,7 +32,8 @@ pipeline{
 				])
 				step([$class: 'KubernetesEngineBuilder', 
 					projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME,
-					location: env.LOCATION, manifestPattern: 'influx.yaml', credentialsId: env.CREDENTIALS_ID
+					location: env.LOCATION, manifestPattern: 'influx.yaml', credentialsId: env.CREDENTIALS_ID,
+					verifyStatefulset: true
 				])
 			}
 		}
