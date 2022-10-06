@@ -1,6 +1,6 @@
 import org.jenkinsci.plugins.pipeline.modeldefinition.Utils
 pipeline{
-	agent any
+	agent none
 	environment {
 		PROJECT_ID = "ordinal-rig-361104"
 		CLUSTER_NAME = "cluster-1"
@@ -25,21 +25,17 @@ pipeline{
 		}
 		stage("Deploy to GKE"){
 			steps{
-				agent {
-					kubernetes {
-						cloud "${CLUSTER_NAME}"
-						inheritFrom 'jenkins-agent'
-					}
-				}
-				steps{
-					container("jenkins-agent"){
-						sh "kubectl apply -f influx.yaml"
-					}
-				}
 				sh "sed -i 's/simpleservice:v1/simple${BUILD_NUMBER}/g' simple.yaml"
 				step([$class: 'KubernetesEngineBuilder', 
 					projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME,
 					location: env.LOCATION, manifestPattern: 'simple.yaml', credentialsId: env.CREDENTIALS_ID,
+					verifyDeployments: true
+				]
+				)
+				sh "sed -i 's/-/-/g' influx.yaml"
+				step([$class: 'KubernetesEngineBuilder', 
+					projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME,
+					location: env.LOCATION, manifestPattern: 'influx.yaml', credentialsId: env.CREDENTIALS_ID,
 					verifyDeployments: true
 				]
 				)
