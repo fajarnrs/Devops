@@ -33,3 +33,102 @@ spec:
   selector:
     app: simpledeploy
   type: ClusterIP
+
+---
+
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+    name: influxdb
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+    labels:
+        app: influxdb
+    name: influxdb
+    namespace: influxdb
+spec:
+    replicas: 1
+    selector:
+        matchLabels:
+            app: influxdb
+    serviceName: influxdb
+    template:
+        metadata:
+            labels:
+                app: influxdb
+        spec:
+            containers:
+              - image: quay.io/influxdb/influxdb:nightly
+                name: influxdb
+                ports:
+                  - containerPort: 8086
+                    name: influxdb
+                volumeMounts:
+                  - mountPath: /var/lib/influxdb2
+                    name: data
+    volumeClaimTemplates:
+      - metadata:
+            name: data
+            namespace: influxdb
+        spec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+                requests:
+                    storage: 10G
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: influxdb
+    namespace: influxdb
+spec:
+    ports:
+      - name: influxdb
+        port: 8086
+        targetPort: 8086
+    selector:
+        app: influxdb
+    type: ClusterIP
+---
+apiVersion: v1
+kind: Service
+metadata:
+    name: influxdb
+    namespace: default
+spec:
+    type: ExternalName
+    externalName: influxdb.influxdb.svc.cluster.local
+    ports:
+     - port: 8086
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: simpleingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+ ingressClassName: nginx
+ rules:
+ - http:
+     paths:
+     - path: /myservice(/|$)(.*)
+       pathType: Prefix
+       backend:
+         service:
+           name: simpleservice
+           port:
+            number: 9876
+     - path: /influxdb(/|$)(.*)
+       pathType: Prefix
+       backend:
+         service:
+           name: influxdb
+           port:
+            number: 8086
