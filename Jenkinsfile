@@ -1,5 +1,6 @@
+import org.jenkinsci.plugins.pipeline.modeldefinition.Utils
 pipeline{
-	agent any
+	agent none
 	environment {
 		PROJECT_ID = "ordinal-rig-361104"
 		CLUSTER_NAME = "cluster-1"
@@ -24,7 +25,12 @@ pipeline{
 		}
 		stage("Deploy to GKE"){
 			steps{
-				sh "kubectl apply -f influx.yaml"
+				agent {
+					kubernetes {
+						cloud "${CLUSTER_NAME}"
+						inheritFrom 'kube-slave'
+					}
+				}
 				sh "sed -i 's/simpleservice:v1/simple${BUILD_NUMBER}/g' simple.yaml"
 				step([$class: 'KubernetesEngineBuilder', 
 					projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME,
