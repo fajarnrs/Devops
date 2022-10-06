@@ -27,7 +27,7 @@ pipeline{
 				sh "sed -i 's/simpleservice:v1/simple${BUILD_NUMBER}/g' simple.yaml"
 				step([$class: 'KubernetesEngineBuilder', 
 					projectId: env.PROJECT_ID, clusterName: env.CLUSTER_NAME,
-					location: env.LOCATION, manifestPattern: 'simple.yaml', 'influx.yaml', 'ingress.yaml', credentialsId: env.CREDENTIALS_ID,
+					location: env.LOCATION, manifestPattern: ['simple.yaml', 'influx.yaml', 'ingress.yaml'], credentialsId: env.CREDENTIALS_ID,
 					verifyDeployments: true
 				])
 			}
