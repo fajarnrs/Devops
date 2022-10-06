@@ -23,10 +23,3 @@ spec:
            name: influxdb
            port:
             number: 8086
-     - path: /
-       pathType: Prefix
-       backend:
-         service:
-           name: my-release-grafana
-           port:
-            number: 80

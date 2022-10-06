@@ -23,7 +23,7 @@ spec:
                 app: influxdb
         spec:
             containers:
-              - image: influxdb:2.3.0
+              - image: quay.io/influxdb/influxdb:nightly
                 name: influxdb
                 ports:
                   - containerPort: 8086
@@ -31,9 +31,6 @@ spec:
                 volumeMounts:
                   - mountPath: /var/lib/influxdb2
                     name: data
-                env: 
-                 - name: INFLUXD_ASSETS_PATH
-                   value: /influxdb
     volumeClaimTemplates:
       - metadata:
             name: data
