@@ -16,6 +16,8 @@ This is for Test Number 2 to deploy SimpleService and Influxdb
 <h2>Jenkins Prepare CI/CD</h2>
 1. Setting Node Cloud for Connect to Google Kubernetes Engine 'Manage Jenkins -> Manage Nodes and Clouds -> Manage Clouds'
 2. Choose Kubernetes in 'kubernetes' you can assign kubernetes cluster IP from your GKE(Google Kubernetes Engine) Cluster and get Credential key sam place under IP kubernetes Cluster
- 
+            ![1](https://user-images.githubusercontent.com/75650288/194388335-b7f6d83c-41fd-4ab1-bc89-250082b75e22.jpg)
+3. 
+
 
 
