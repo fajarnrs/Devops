@@ -47,10 +47,3 @@ choose build step execute shell for test command in the agent if success we can 
 7. after that try to build the job jenkins we made for CI/CD for SimpleService
 
 <hr />
-<h1>Monitoring Using Influxdb and Grafana
-
-<h3>Software must install in server or windows</h3>
-
-1. helm chart
-   * [Install Helm Chart](https://helm.sh/docs/intro/install/)
-2. kubectl
