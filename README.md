@@ -10,9 +10,7 @@ This is for Test Number 2 to deploy SimpleService and Influxdb
 
 2. Docker
     <p> After Install Docker Engine in Linux, Please Usermod first for running jenkins to docker</p>
-    ```
-    usermod -aG docker jenkins
-    ```
+    ```usermod -aG docker jenkins```
     <p>Restart Docker after usermod<p>
 3. kubectl
   <p> Apply First for Ingress and Influxdb to your kubernetes because this yaml not include in CI/CD.</p>
